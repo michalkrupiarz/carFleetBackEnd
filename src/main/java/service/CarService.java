@@ -28,9 +28,9 @@ public class CarService {
 			Car bhutanCar=new Car(2, "Bhutan","7000"); 	
 			   
 			carIdMap.put(1, indiaCar);
-			carIdMap.put(2, chinaCar);
+			carIdMap.put(4, chinaCar);
 			carIdMap.put(3, nepalCar);
-			carIdMap.put(4, bhutanCar);
+			carIdMap.put(2, bhutanCar);
 		}
 	}
 	
@@ -39,6 +39,9 @@ public class CarService {
 		return cars;
 	}
 	public  Car getCar(int id){
+		
+		
+		
 		Car car = carIdMap.get(id);
 		if (car == null){
 			throw new ItemNotFoundException("Car with id "+id+" not found");
@@ -46,6 +49,29 @@ public class CarService {
 		return car;
 	}
 	
+	public static Car addCar(Car car){
+		car.setId(getMaxId()+1);
+		carIdMap.put(car.getId(), car);
+		return car;
+	}
+	
+	private static int getMaxId() {
+		return carIdMap.size();
+	}
+	
+	public static Car updateCar(Car car){
+		if(car.getId()<=0){
+			throw new ItemNotFoundException("Car with id "+car.getId()+" not found");
+		}else {
+			carIdMap.put(car.getId(), car);
+		}
+		return car;
+	}
+	
+	public static void deleteCar(int id){
+		carIdMap.remove(id);
+	}
+
 	private static HashMap<Integer, Car> getCarIdMap() {
 		// TODO Auto-generated method stub
 		return null;
