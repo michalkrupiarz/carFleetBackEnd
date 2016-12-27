@@ -56,7 +56,12 @@ public class CarService {
 	}
 	
 	private static int getMaxId() {
-		return carIdMap.size();
+		int max = 0;
+		for (int id:carIdMap.keySet()){
+			if(max<=id)
+				max=id;
+		}
+		return max;
 	}
 	
 	public static Car updateCar(Car car){
