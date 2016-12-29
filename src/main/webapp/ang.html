@@ -69,7 +69,7 @@
                 function _refreshCarData() {  
                     $http({  
                         method : 'GET',  
-                        url : 'http://localhost:8080/carfleet/rest/cars'  
+                        url : 'http://localhost:8100/carfleet/rest/cars'  
                     }).then(function successCallback(response) {  
                         $scope.cars = response.data;  
                     }, function errorCallback(response) {  
