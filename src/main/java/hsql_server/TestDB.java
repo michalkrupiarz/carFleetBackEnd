@@ -107,12 +107,14 @@ public class TestDB {
 	        }
 	    }                                       //void dump( ResultSet rs )
 	 
+	 
+	 
 	 public static void main(String[] args) {
 
 	        TestDB db = null;
 
 	        try {
-	            db = new TestDB("db_file");
+	            db = new TestDB("car_Fleet_3");
 	        } catch (Exception ex1) {
 	            ex1.printStackTrace();    // could not start db
 
@@ -126,11 +128,12 @@ public class TestDB {
 	            // by declaring the id column IDENTITY, the db will automatically
 	            // generate unique values for new rows- useful for row keys
 	            db.update(
-	                "CREATE TABLE sample_table ( id INTEGER IDENTITY, str_col VARCHAR(256), num_col INTEGER)");
+	            		"CREATE TABLE car_table (id INTEGER IDENTITY, name_col VARCHAR(256), registration_col VARCHAR(256))");
 	        } catch (SQLException ex2) {
-
+	        	System.out.println(ex2);
+	        	ex2.printStackTrace();
 	            //ignore
-	            //ex2.printStackTrace();  // second time we run program
+	            //ex2.printStackTrace();  // second time we run programv
 	            //  should throw execption since table
 	            // already there
 	            //
@@ -142,16 +145,16 @@ public class TestDB {
 	            // add some rows - will create duplicates if run more then once
 	            // the id column is automatically generated
 	            db.update(
-	                "INSERT INTO sample_table(str_col,num_col) VALUES('Ford', 100)");
+	                "INSERT INTO car_table(name_col,registration_col) VALUES('Ford', 'AXX100')");
 	            db.update(
-	                "INSERT INTO sample_table(str_col,num_col) VALUES('Toyota', 200)");
+	                "INSERT INTO car_table(name_col,registration_col) VALUES('Toyota', 'AXX100')");
 	            db.update(
-	                "INSERT INTO sample_table(str_col,num_col) VALUES('Honda', 300)");
+	                "INSERT INTO car_table(name_col,registration_col) VALUES('Honda', 'AXX100')");
 	            db.update(
-	                "INSERT INTO sample_table(str_col,num_col) VALUES('GM', 400)");
+	                "INSERT INTO car_table(name_col,registration_col) VALUES('GM', 'AXX100')");
 
 	            // do a query
-	            db.query("SELECT * FROM sample_table");
+	            db.query("SELECT * FROM car_table");
 
 	            // at end of program
 	            db.shutdown();

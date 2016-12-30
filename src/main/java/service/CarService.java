@@ -3,7 +3,7 @@ package service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import hsql_server.*;
 import bean.Car;
 import exception.ItemNotFoundException;
 
@@ -38,9 +38,17 @@ public class CarService {
 		List<Car> cars = new ArrayList<Car>(carIdMap.values());
 		return cars;
 	}
-	public  Car getCar(int id){
+	
+	public List<Car> getAllCarsSQLWise() throws Exception{
 		
 		
+		List<Car> cars = new ArrayList<Car>();
+		String querry = "Select * from cars";
+		System.out.println("47");
+		cars = Car_Fleet_DB.getAllCars(querry);
+		return cars;
+	}
+	public  Car getCar(int id){	
 		
 		Car car = carIdMap.get(id);
 		if (car == null){

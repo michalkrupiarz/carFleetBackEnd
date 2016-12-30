@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;  
@@ -22,10 +23,12 @@ public class CarController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List <Car> getCars()
+	public List <Car> getCars() throws Exception
 	{	
-		List<Car> listOfCars = carService.getAllCars();
-		
+		System.out.println("27");
+		List<Car> listOfCars = new ArrayList<>();
+		listOfCars = carService.getAllCarsSQLWise();
+		System.out.println("29");
 		return listOfCars;
 	}
 	@GET

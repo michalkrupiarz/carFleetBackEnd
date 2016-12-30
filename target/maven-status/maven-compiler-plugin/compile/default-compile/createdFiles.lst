@@ -2,6 +2,8 @@ bean\Car.class
 bean\ExceptionMessage.class
 controller\CarController.class
 exception\ItemNotFoundException.class
+hsql_server\TestDB.class
 service\CarService.class
 headerFix\CORSFilter.class
 controller\ItemNotfoundExceptionMapper.class
+hsql_server\Car_Fleet_DB.class
