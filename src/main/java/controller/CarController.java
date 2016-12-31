@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,9 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List <Car> getCars() throws Exception
 	{	
-		System.out.println("27");
 		List<Car> listOfCars = new ArrayList<>();
 		listOfCars = carService.getAllCarsSQLWise();
-		System.out.println("29");
+		
 		return listOfCars;
 	}
 	@GET
@@ -38,26 +38,27 @@ public class CarController {
 		return carService.getCar(id);
 	}
 	 @POST  
-	    @Produces(MediaType.APPLICATION_JSON)  
-	 public Car addCar(Car Car)  
+	 @Produces(MediaType.APPLICATION_JSON)  
+	 public Car addCar(Car Car) throws SQLException  
 	 {  
-	  return CarService.addCar(Car);  
+	  return CarService.addCarSqlWise(Car);  
 	 }  
 	  
-	    @PUT  
-	    @Produces(MediaType.APPLICATION_JSON)  
-	 public Car updateCar(Car Car)  
+	 @PUT  
+	 @Produces(MediaType.APPLICATION_JSON)  
+	 public Car updateCar(Car Car) throws SQLException  
 	 {  
-	  return CarService.updateCar(Car);  
+	  System.out.println("wpadlo w put "+Car);
+	  return CarService.updateCarSQLWise(Car);  
 	    
 	 }  
 	   
-	    @DELETE  
-	    @Path("/{id}")  
-	    @Produces(MediaType.APPLICATION_JSON)  
-	 public void deleteCar(@PathParam("id") int id)  
-	 {  
-	   CarService.deleteCar(id);  
+	 @DELETE  
+	 @Path("/{id}")  
+	 @Produces(MediaType.APPLICATION_JSON)  
+	 public void deleteCar(@PathParam("id") int id) throws SQLException  
+	 {   
+	   CarService.deleteCarSqlWise(id);
 	    
 	 }  
 

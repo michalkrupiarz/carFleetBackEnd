@@ -13,7 +13,7 @@ public class Car_Fleet_DB {
 	static Connection conn;
 	public Car_Fleet_DB() throws Exception {
 		Class.forName("org.hsqldb.jdbc.JDBCDriver");
-		conn = DriverManager.getConnection("jdbc:hsqldb:car_fleet_5","SA","");
+		conn = DriverManager.getConnection("jdbc:hsqldb:C:/hsqldb-2.3.4/baza","SA","");
 	}
 	public void shutdown() throws SQLException {
 
@@ -27,18 +27,21 @@ public class Car_Fleet_DB {
     }
 	
 	
-	public synchronized void update(String querry) throws SQLException{
+	public static synchronized void update(String querry) throws SQLException{
 		Statement st = null;
-
+		System.out.println("XXX Executing querry XXX "+querry);
         st = conn.createStatement();    // statements
-
+        
         int i = st.executeUpdate(querry);    // run the query
 
         if (i == -1) {
             System.out.println("db error : " + querry);
         }
 
+        
+        st.execute("SHUTDOWN");
         st.close();
+        conn.close();  
     }
 	
 	
@@ -55,20 +58,19 @@ public class Car_Fleet_DB {
 	                "INSERT INTO cars(name,registration) VALUES('GM', 'AXX100')");
 		} catch (SQLException ex2) {
         	System.out.println(ex2);
-        	ex2.printStackTrace();}
-		
+        }		
 	}
 	public static List<Car> getAllCars(String querry) throws Exception{
-		System.out.println("62");
+	
 		List<Car> cars = new ArrayList<>();
-		System.out.println("64");
+		
 		Car_Fleet_DB db = new Car_Fleet_DB();
-		System.out.println("66");
+		
 		Statement st = null;
         ResultSet rs = null;
         checkOrCreateTable(db);
         st = conn.createStatement();
-        System.out.println(querry);
+       
         
         rs = st.executeQuery(querry);
         cars = getCars(rs);
@@ -79,15 +81,17 @@ public class Car_Fleet_DB {
 	public static List<Car> getCars(ResultSet rs) throws SQLException{
 		List <Car> cars = new ArrayList<>();
 		System.out.println(rs);
-		Car car = new Car();
+		
 		for (;rs.next();){
+			Car car = new Car();
 			car.setId(rs.getInt(1));
 			car.setName(rs.getString(2));
 			car.setRegistration(rs.getString(3));
-			System.out.println(car);
+	
 			cars.add(car);
 		}
-		System.out.println(cars);
+	
 		return cars;
 	}
+	
 }

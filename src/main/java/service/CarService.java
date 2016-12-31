@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,34 +21,16 @@ public class CarService {
 	
 	public CarService() {
 		super();
-		if (carIdMap == null){
-			carIdMap = new HashMap<Integer,Car>();
-			Car indiaCar=new Car(1, "India","10000");  
-			Car chinaCar=new Car(4, "China","20000");  
-			Car nepalCar=new Car(3, "Nepal","8000");  
-			Car bhutanCar=new Car(2, "Bhutan","7000"); 	
-			   
-			carIdMap.put(1, indiaCar);
-			carIdMap.put(4, chinaCar);
-			carIdMap.put(3, nepalCar);
-			carIdMap.put(2, bhutanCar);
-		}
-	}
-	
-	public List<Car> getAllCars(){
-		List<Car> cars = new ArrayList<Car>(carIdMap.values());
-		return cars;
 	}
 	
 	public List<Car> getAllCarsSQLWise() throws Exception{
 		
-		
 		List<Car> cars = new ArrayList<Car>();
 		String querry = "Select * from cars";
-		System.out.println("47");
 		cars = Car_Fleet_DB.getAllCars(querry);
 		return cars;
 	}
+	
 	public  Car getCar(int id){	
 		
 		Car car = carIdMap.get(id);
@@ -57,19 +40,10 @@ public class CarService {
 		return car;
 	}
 	
-	public static Car addCar(Car car){
-		car.setId(getMaxId()+1);
-		carIdMap.put(car.getId(), car);
+	public static Car addCarSqlWise(Car car) throws SQLException{
+		String querry = "INSERT INTO cars (name,registration) VALUES('"+car.getName()+"','"+car.getRegistration()+"')";
+		Car_Fleet_DB.update(querry);
 		return car;
-	}
-	
-	private static int getMaxId() {
-		int max = 0;
-		for (int id:carIdMap.keySet()){
-			if(max<=id)
-				max=id;
-		}
-		return max;
 	}
 	
 	public static Car updateCar(Car car){
@@ -80,6 +54,23 @@ public class CarService {
 		}
 		return car;
 	}
+	
+	public static Car updateCarSQLWise(Car car) throws SQLException{
+		if(car.getId()<=0){
+			throw new ItemNotFoundException("Car with id "+car.getId()+" not found");
+		}else {
+			System.out.println("sqlWise 3");
+		String querry = "UPDATE cars SET name = '"+car.getName()+"', registration = '"+car.getRegistration()+"' where id = "+car.getId();
+		Car_Fleet_DB.update(querry);
+		}
+		return car;
+	}
+	
+	public static void deleteCarSqlWise(int id) throws SQLException{
+		String querry = "DELETE from cars where id = "+id;
+		Car_Fleet_DB.update(querry);
+	}
+	
 	
 	public static void deleteCar(int id){
 		carIdMap.remove(id);
